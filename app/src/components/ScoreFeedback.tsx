@@ -1,4 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/button';
+import React from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Progress } from './ui/progress';
 import { AlertCircle, CheckCircle, Shield } from 'lucide-react';
 

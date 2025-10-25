@@ -26,11 +26,11 @@ SAMPLE_ATTACKS = [
 
 @app.route('/')
 def index():
-    return send_file('./app/page.tsx')
+    return send_file('./app/src/page.tsx')
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    return jsonify({'status': 'ok', 'message': 'Flask server is running'})
+    return jsonify({'status': 'ok', 'message': 'Server is running'})
 
 @app.route('/api/test', methods=['POST'])
 def test_security():

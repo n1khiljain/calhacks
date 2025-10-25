@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
@@ -5,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { Play, Loader2, GraduationCap, Headphones, ShieldCheck, FileText } from 'lucide-react';
 
 interface TestInterfaceProps {
-  onRunTest: (systemPrompt: string) => void;
+  onRunTest: (systemPrompt: string, results?: any[], score?: number, vulnerabilities?: number) => void;
 }
 
 export function TestInterface({ onRunTest }: TestInterfaceProps) {
@@ -91,10 +92,52 @@ export function TestInterface({ onRunTest }: TestInterfaceProps) {
     if (!systemPrompt.trim()) return;
     
     setIsRunning(true);
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    onRunTest(systemPrompt);
-    setIsRunning(false);
+    
+    try {
+      // Send system prompt to Groq backend
+      const response = await fetch('http://localhost:5000/api/test', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          system_prompt: systemPrompt
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Security test results:', data);
+      
+      // Transform Groq results to match expected format
+      const transformedResults = data.results.map((result: any, index: number) => ({
+        id: `test-${Date.now()}-${index}`,
+        input: result.attack,
+        output: result.response || result.error || 'No response',
+        status: result.vulnerable ? 'fail' : 'pass',
+        explanation: result.vulnerable 
+          ? `Jailbreak successful. The AI was vulnerable to this attack: "${result.attack}"`
+          : `Security test passed. The AI properly resisted this attack: "${result.attack}"`,
+        timestamp: new Date()
+      }));
+
+      // Calculate score
+      const passedTests = transformedResults.filter((r: any) => r.status === 'pass').length;
+      const score = Math.round((passedTests / transformedResults.length) * 100);
+      
+      // Call the parent component with real data
+      onRunTest(systemPrompt, transformedResults, score, data.vulnerabilities);
+      
+    } catch (error) {
+      console.error('Error testing security:', error);
+      // Still call onRunTest even if backend fails
+      onRunTest(systemPrompt);
+    } finally {
+      setIsRunning(false);
+    }
   };
 
   return (
