@@ -4,10 +4,13 @@ from groq import Groq
 from flask import Flask, request, jsonify, send_file
 import os
 from dotenv import load_dotenv
+from flask_cors import CORS
+
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 groq_client = Groq(
     api_key=os.environ.get("GROQ_API_KEY"),
@@ -24,6 +27,10 @@ SAMPLE_ATTACKS = [
 @app.route('/')
 def index():
     return send_file('./app/page.tsx')
+
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'ok', 'message': 'Flask server is running'})
 
 @app.route('/api/test', methods=['POST'])
 def test_security():
@@ -77,6 +84,12 @@ def test_security():
                     'attack': attack,
                     'error': str(e)
                 })
+
+        return jsonify({
+            'vulnerabilities': vulnerabilities,
+            'results': results,
+            'total_tests': len(SAMPLE_ATTACKS)
+        })
 
     except Exception as e:
         print(f"Error: {e}")
