@@ -26,7 +26,7 @@ export function ResultsTable({ results }: ResultsTableProps) {
                 <TableHead className="text-slate-300">Status</TableHead>
                 <TableHead className="text-slate-300">Test Input</TableHead>
                 <TableHead className="text-slate-300">LLM Output</TableHead>
-                <TableHead className="text-slate-300">Explanation</TableHead>
+                <TableHead className="text-slate-300">Classifier Detection</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -52,7 +52,27 @@ export function ResultsTable({ results }: ResultsTableProps) {
                     <p className="whitespace-normal break-words">{result.output}</p>
                   </TableCell>
                   <TableCell className="text-slate-400 max-w-md align-top py-6">
-                    <p className="text-sm whitespace-normal break-words">{result.explanation}</p>
+                    <div className="space-y-2">
+                      <p className="text-sm whitespace-normal break-words">{result.explanation}</p>
+                      {result.classifiers && (
+                        <div className="text-xs text-slate-500 mt-2 space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className={`px-1.5 py-0.5 rounded ${result.classifiers.har?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                              HAR
+                            </span>
+                            <span className={`px-1.5 py-0.5 rounded ${result.classifiers.obv?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                              OBV
+                            </span>
+                            <span className={`px-1.5 py-0.5 rounded ${result.classifiers.sen?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                              SEN
+                            </span>
+                            <span className={`px-1.5 py-0.5 rounded ${result.classifiers.dis?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                              DIS
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}

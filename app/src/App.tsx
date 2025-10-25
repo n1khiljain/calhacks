@@ -12,6 +12,7 @@ export interface TestResult {
   output: string;
   status: 'pass' | 'fail';
   explanation: string;
+  classifiers?: any;
   timestamp: Date;
 }
 

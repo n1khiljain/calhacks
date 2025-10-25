@@ -94,6 +94,8 @@ export function TestInterface({ onRunTest }: TestInterfaceProps) {
     setIsRunning(true);
     
     try {
+      console.log('Starting security test...');
+      
       // Send system prompt to Groq backend
       const response = await fetch('http://localhost:5000/api/test', {
         method: 'POST',
@@ -105,7 +107,11 @@ export function TestInterface({ onRunTest }: TestInterfaceProps) {
         })
       });
 
+      console.log('Response received:', response.status);
+
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -119,20 +125,25 @@ export function TestInterface({ onRunTest }: TestInterfaceProps) {
         output: result.response || result.error || 'No response',
         status: result.vulnerable ? 'fail' : 'pass',
         explanation: result.vulnerable 
-          ? `Jailbreak successful. The AI was vulnerable to this attack: "${result.attack}"`
-          : `Security test passed. The AI properly resisted this attack: "${result.attack}"`,
+          ? `Jailbreak detected by classifiers. The AI was vulnerable to this attack.`
+          : `Security test passed. The AI properly resisted this attack.`,
+        classifiers: result.classifiers,
         timestamp: new Date()
       }));
 
-      // Calculate score
-      const passedTests = transformedResults.filter((r: any) => r.status === 'pass').length;
-      const score = Math.round((passedTests / transformedResults.length) * 100);
+      // Use security score from backend if available, otherwise calculate it
+      const score = data.security_score !== undefined ? data.security_score : 
+        Math.round((transformedResults.filter((r: any) => r.status === 'pass').length / transformedResults.length) * 100);
       
       // Call the parent component with real data
-      onRunTest(systemPrompt, transformedResults, score, data.vulnerabilities);
+      onRunTest(systemPrompt, transformedResults, score, data.vulnerabilities_detected);
       
     } catch (error) {
       console.error('Error testing security:', error);
+      
+      // Show error alert to user
+      alert(`Failed to connect to backend. Make sure the backend is running on port 5000.\n\nError: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      
       // Still call onRunTest even if backend fails
       onRunTest(systemPrompt);
     } finally {
