@@ -97,7 +97,7 @@ export function TestInterface({ onRunTest }: TestInterfaceProps) {
       console.log('Starting security test...');
       
       // Send system prompt to Groq backend
-      const response = await fetch('http://localhost:5000/api/test', {
+      const response = await fetch('http://localhost:5001/api/test', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
