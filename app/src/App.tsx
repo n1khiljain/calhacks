@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TestInterface } from './features/test/TestInterface';
 import { ResultsTable } from './features/test/ResultsTable';
 import { ScoreFeedback } from './features/test/ScoreFeedback';
+import { AnalysisSection } from './features/test/AnalysisSection';
 import { HomePage } from './features/home/HomePage';
 import { ShieldCheck } from 'lucide-react';
 import { Button } from './components/ui/button';
@@ -104,6 +105,7 @@ export default function App() {
             <>
               <ResultsTable results={testResults} />
               <ScoreFeedback score={overallScore} feedback={feedback} />
+              <AnalysisSection results={testResults} score={overallScore || 0} />
             </>
           )}
         </main>
