@@ -6,7 +6,9 @@
       "Bash(npm run build:*)",
       "Bash(if not exist \"src\\features\" mkdir \"src\\features\")",
       "Bash(if not exist \"src\\features\\home\" mkdir \"src\\features\\home\")",
-      "Bash(if not exist \"src\\features\\test\" mkdir \"src\\features\\test\")"
+      "Bash(if not exist \"src\\features\\test\" mkdir \"src\\features\\test\")",
+      "Bash(if not exist \"api\" mkdir \"api\")",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []
