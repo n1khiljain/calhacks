@@ -153,7 +153,7 @@ export function TestInterface({ onRunTest }: TestInterfaceProps) {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 relative z-0">
-      <h3 className="text-white/90 tracking-tight">Enter your LLM system prompt</h3>
+      <h3 className="text-2xl font-semibold text-white/95 tracking-tight">Enter your LLM system prompt</h3>
       <div className="space-y-3 relative bg-white rounded-xl p-5 shadow-lg">
         <Textarea
           id="system-prompt"
@@ -185,7 +185,7 @@ export function TestInterface({ onRunTest }: TestInterfaceProps) {
       </div>
       
       <div>
-        <p className="text-white/70 mb-3">Or try an example:</p>
+        <p className="text-lg font-medium text-white/80 mb-3">Or try an example:</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {examplePrompts.map((example, index) => (
             <button
