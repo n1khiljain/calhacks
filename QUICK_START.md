@@ -21,9 +21,7 @@ Create a `.env` file in the `backend` directory:
 
 ```bash
 # In backend/.env
-GROQ_API_KEY=your_groq_api_key_here
-REKA_API_KEY=your_reka_api_key_here
-```
+
 
 Get your API keys from:
 - Groq: https://console.groq.com/
@@ -96,7 +94,7 @@ If the backend is running, you'll see a response. If not, you'll get a connectio
 You can also test the backend directly using curl or Postman:
 
 ```bash
-curl -X POST http://localhost:5000/api/test \
+curl -X POST http://localhost:5001/api/test \
   -H "Content-Type: application/json" \
   -d '{"system_prompt": "You are a helpful assistant."}'
 ```
