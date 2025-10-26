@@ -57,18 +57,30 @@ export function ResultsTable({ results }: ResultsTableProps) {
                         <p className="text-sm whitespace-normal break-words">{result.explanation}</p>
                         {result.classifiers && (
                           <div className="text-xs text-slate-500 mt-2 space-y-1">
-                            <div className="flex items-center gap-2">
-                              <span className={`px-1.5 py-0.5 rounded ${result.classifiers.har?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
-                                HAR
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className={`px-1.5 py-0.5 rounded ${result.classifiers.comp?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                                COMP
                               </span>
-                              <span className={`px-1.5 py-0.5 rounded ${result.classifiers.obv?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
-                                OBV
+                              <span className={`px-1.5 py-0.5 rounded ${result.classifiers.ref?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                                REF
                               </span>
-                              <span className={`px-1.5 py-0.5 rounded ${result.classifiers.sen?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
-                                SEN
+                              <span className={`px-1.5 py-0.5 rounded ${result.classifiers.harm?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                                HARM
                               </span>
                               <span className={`px-1.5 py-0.5 rounded ${result.classifiers.dis?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
                                 DIS
+                              </span>
+                              <span className={`px-1.5 py-0.5 rounded ${result.classifiers.sens?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                                SENS
+                              </span>
+                              <span className={`px-1.5 py-0.5 rounded ${result.classifiers.role?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                                ROLE
+                              </span>
+                              <span className={`px-1.5 py-0.5 rounded ${result.classifiers.inst?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                                INST
+                              </span>
+                              <span className={`px-1.5 py-0.5 rounded ${result.classifiers.reka?.is_jailbreak ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                                AI
                               </span>
                             </div>
                           </div>

@@ -97,7 +97,7 @@ export function TestInterface({ onRunTest }: TestInterfaceProps) {
       console.log('Starting security test...');
       
       // Send system prompt to Groq backend
-      const response = await fetch('/api/test', {
+      const response = await fetch('http://localhost:5000/api/test', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -141,8 +141,26 @@ export function TestInterface({ onRunTest }: TestInterfaceProps) {
     } catch (error) {
       console.error('Error testing security:', error);
       
-      // Show error alert to user
-      alert(`Failed to run security tests. Please check your API keys are configured.\n\nError: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      // Show detailed error message to user
+      let errorMessage = 'Failed to run security tests. ';
+      
+      if (error instanceof Error) {
+        if (error.message.includes('500')) {
+          errorMessage += 'The backend server encountered an error. Please check that:\n\n';
+          errorMessage += '1. Your API keys are configured in app/backend/config.env\n';
+          errorMessage += '2. Your Groq API key is valid and has credits\n';
+          errorMessage += '3. The backend server is running on port 5000\n\n';
+          errorMessage += 'See app/backend/API_SETUP.md for detailed setup instructions.';
+        } else if (error.message.includes('404')) {
+          errorMessage += 'Backend server not found. Please ensure the backend is running on port 5000.';
+        } else {
+          errorMessage += `Error: ${error.message}`;
+        }
+      } else {
+        errorMessage += 'Unknown error occurred.';
+      }
+      
+      alert(errorMessage);
       
       // Still call onRunTest even if backend fails
       onRunTest(systemPrompt);
