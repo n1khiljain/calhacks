@@ -1,6 +1,6 @@
 # Backend - AI Security Testing with Reka AI
 
-This backend implements AI security testing using Reka AI classifiers following FuzzyAI patterns.
+This backend implements AI security testing with the help of Reka AI classifiers following FuzzyAI patterns.
 
 ## Setup
 
